@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML爱心标签特效</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: "SimHei", sans-serif;
+        }
+        .label {
+            position: absolute;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // 文本内容列表
+        const texts = [
+            "好好吃饭", "多喝热水", "天天开心", "照顾好自己",
+            "保持好心情", "我想你了", "好好爱自己", "别熬夜",
+            "天冷了多穿衣服", "记得想我"
+        ];
+
+        // 颜色列表
+        const colors = [
+            "rgba(255, 105, 180, 0.8)", "rgba(255, 192, 203, 0.8)", "rgba(255, 20, 147, 0.8)",
+            "rgba(173, 216, 230, 0.8)", "rgba(135, 206, 250, 0.8)", "rgba(0, 191, 255, 0.8)",
+            "rgba(144, 238, 144, 0.8)", "rgba(152, 251, 152, 0.8)", "rgba(0, 255, 127, 0.8)"
+        ];
+
+        // 生成爱心形状的点
+        function generateHeartPoints(centerX, centerY, scale) {
+            const points = [];
+            for (let t = 0; t < 360; t += 5) {
+                const rad = t * Math.PI / 180;
+                const x = 16 * Math.pow(Math.sin(rad), 3);
+                const y = 13 * Math.cos(rad) - 5 * Math.cos(2 * rad) - 2 * Math.cos(3 * rad) - Math.cos(4 * rad);
+                points.push({
+                    x: centerX + x * scale,
+                    y: centerY - y * scale
+                });
+            }
+            return points;
+        }
+
+        // 创建标签
+        function createLabel(x, y, text, color) {
+            const label = document.createElement('div');
+            label.className = 'label';
+            label.textContent = text;
+            label.style.left = `${x}px`;
+            label.style.top = `${y}px`;
+            label.style.backgroundColor = color;
+            label.style.fontSize = `${14 + Math.random() * 6}px`;
+            document.body.appendChild(label);
+            // 随机移动
+            const vx = (Math.random() - 0.5) * 2;
+            const vy = (Math.random() - 0.5) * 2;
+            const move = () => {
+                x += vx;
+                y += vy;
+                label.style.left = `${x}px`;
+                label.style.top = `${y}px`;
+                requestAnimationFrame(move);
+            };
+            move();
+        }
+
+        // 初始化爱心标签
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const heartPoints = generateHeartPoints(centerX, centerY, 10);
+        heartPoints.forEach(point => {
+            const text = texts[Math.floor(Math.random() * texts.length)];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            createLabel(point.x, point.y, text, color);
+        });
+
+        // 持续生成新标签铺满屏幕
+        setInterval(() => {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            const text = texts[Math.floor(Math.random() * texts.length)];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            createLabel(x, y, text, color);
+        }, 100);
+    </script>
+</body>
+</html>
