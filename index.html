@@ -37,7 +37,7 @@
         const texts = [
             "好好吃饭", "多喝热水", "天天开心", "照顾好自己",
             "保持好心情", "我想你了", "好好爱自己", "别熬夜",
-            "天冷了多穿衣服", "记得想我", "我喜欢你", "张雪艳做我女朋友吧"
+            "我喜欢你", "张雪艳做我女朋友吧"
         ];
 
         // 颜色列表
@@ -88,7 +88,7 @@
         // 初始化爱心标签
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
-        const heartPoints = generateHeartPoints(centerX, centerY, 12);
+        const heartPoints = generateHeartPoints(centerX, centerY, 10);
         heartPoints.forEach(point => {
             const text = texts[Math.floor(Math.random() * texts.length)];
             const color = colors[Math.floor(Math.random() * colors.length)];
